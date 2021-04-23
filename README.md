@@ -1,5 +1,5 @@
 # Data-Analysis-and-Pattern-Recognition
-Course work
+Course work\
 This repository contains the worked solutions from the course ECE 485: Data Analysis and Pattern Recognition, offered at the University of Victoria. The solutions, but not the templates, are my own work, and are ***not to be used in whole or in part for any purpose by anyone***. The assignment specification documents are the work of the course runners, not mine. I did not design the assignments themselves. This repository is for documentation and personal review purposes only.
 
 DISCLAIMER:
