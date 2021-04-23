@@ -1,0 +1,74 @@
+clear all
+close
+% Parameters: a = 2 and b = 2; 
+mu = -2; 
+sigma = 2;
+a = 2;
+b = 2;
+% Define the functions 
+% Solution type 1:
+x = -10:0.001:10;
+
+% Density of measurment given w1
+pxw1 =  (1/(sqrt(2*pi*sigma)))*exp(-(x-mu).^2/(2*sigma));
+
+% Density of measurment given w2
+pxw2 = (1/(pi*b)).*(1./(1+((x-a)./b).^2));
+
+% Plot the densities
+plot( x , pxw1 , x, pxw2 );
+legend('p( x | \omega_1 )','p( x | \omega_2 )')
+grid;
+
+% Now that the initial setting is done
+% a. Find the decision boundaries for the cases when:
+% P(w1)=P(w2)
+
+% Density of x given w1
+fpxw1 = @(x) (1/(sqrt(2*pi*sigma)))*exp(-(x-mu).^2/(2*sigma));
+% Density of x given w2
+fpxw2 = @(x) (1/(pi*b)).*(1./(1+((x-a)./b).^2));
+
+
+% Problem i) p(w1) = p(w2)
+% Decision function if > 0 pick w1
+dw1_p1 = @(x) fpxw1(x) * 1 - fpxw2(x);
+plot(x,dw1_p1(x));
+title('Part a Decision function');
+grid;
+options = optimoptions('fsolve','OptimalityTolerance',1e-8);
+x11 = fsolve( dw1_p1 ,-6 )
+dw1_p1(x11)
+x12 = fsolve( dw1_p1 , 0)
+dw1_p1( x12 )
+
+
+% b.  Find the classification error probabilities for Bayesian classifications between classes ω1 and ω2 
+% for P (ω1) = P (ω2).p (x|ω1) P (ω1) > p (x|ω2) P (ω2) 
+% Bayes error is to minimize the probability of error so that we select ω1 if P (ω1|x) > P (ω2|x)
+% B_error = pxw1 * fpxw1 - pxw2 * fpxw2 
+% B_error = (1/(sqrt(2*pi*sigma)))*exp(-(x-mu).^2/(2*sigma)) .* fpxw1(x) - (1/(pi*b)).*(1./(1+((x-a)./b).^2)).* fpxw1(x)
+p_error =  0.5 * (integral(fpxw1, -inf, x11) + integral(fpxw2, x11, x12) +  integral(fpxw1, x12, inf) ) 
+% b_error = @(x) min(pxw1(x)/2, pxw2(x)/2);
+% p_error = integral(b_error, -inf, inf)
+
+% c. Find the decision boundaries for the cases when: p(w1) = 5p(w2)
+dw1_p3 = @(x) fpxw1(x) * 5 - fpxw2(x);
+
+plot(x,dw1_p3(x));
+title('Part c Decision function');
+grid;
+
+x31 = fsolve( dw1_p3 , -6 , options ) 
+x32 = fsolve( dw1_p3 , 1 , options )
+dw1_p3(x32)
+
+% d.  Find the classification error probabilities for Bayesian classifications between classes ω1 and ω2 for P (ω1) = 5 * P (ω2).
+p_error2 =  (5/6) * (integral(fpxw1, -inf, x31) + integral(fpxw1, x32, inf) ) + (1/6) * integral(fpxw2, x31, x32)
+
+% e.   Plot the a posteriori probabilities for ω1 and ω2, P (ω1 |x) and P (ω2 |x) for −10 ≤ x ≤ 10 when P (ω1) = 5P (ω2)
+ppw1x = ((5/6) * pxw1) ./ ((5/6) * pxw1 + (1/6) * pxw2);
+ppw2x = ((1/6) * pxw2) ./ ((5/6) * pxw1 + (1/6) * pxw2);
+plot(x, ppw1x, x, ppw2x)
+legend('p( x | \omega_1 )','p( x | \omega_2 )')
+grid;
