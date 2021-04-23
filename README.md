@@ -4,6 +4,6 @@ This repository contains the worked solutions from the course ECE 485: Data Anal
 
 DISCLAIMER:
 
-1. If you are currently taking ECE 485, by viewing the contents of this repository you agree ***not*** to use any part of the repository code, which includes but not limits to re-defining all the variable and slight modification of the small details.
+1. If you are currently taking ECE 485, by viewing the contents of this repository you agree ***not*** to use any part of the repository code, which includes but not limits to re-defining all the variables and slight modification of the small details.
 2. Using it constitues plagiarism, plagiarism and other forms of academic fraud are taken very seriously by both the University and the Department. 
 3. I am not complicit in any attempt at plagiarism; by viewing this repository you immediately relinquish any claims to that effect.
